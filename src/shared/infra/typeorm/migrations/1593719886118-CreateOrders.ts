@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export default class CreateOrders1593719886118 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -13,11 +18,36 @@ export default class CreateOrders1593719886118 implements MigrationInterface {
             generationStrategy: 'uuid',
             default: 'uuid_generate_v4()',
           },
-          {},
+          {
+            name: 'customer_id',
+            type: 'uuid',
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
         ],
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'orders',
+      new TableForeignKey({
+        columnNames: ['customer_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'customers',
       }),
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {}
+  public async down(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.dropTable('orders');
+    await queryRunner.dropForeignKey('orders', 'customer_id');
+  }
 }
