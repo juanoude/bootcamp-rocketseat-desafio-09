@@ -20,12 +20,17 @@ class Order {
   @Column()
   customer_id: number;
 
-  @ManyToOne(type => Customer, customer => customer.id)
+  @ManyToOne(type => Customer, customer => customer.id, {
+    eager: true,
+  })
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
   customer: Customer;
 
-  @OneToMany(type => OrdersProducts, orderProduct => orderProduct.order_id)
-  order_products: OrdersProducts[];
+  @OneToMany(type => OrdersProducts, orderProduct => orderProduct.order, {
+    eager: true,
+    cascade: ['insert', 'update'],
+  })
+  order_products!: OrdersProducts[];
 
   @CreateDateColumn()
   created_at: Date;

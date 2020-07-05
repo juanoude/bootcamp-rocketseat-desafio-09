@@ -6,6 +6,7 @@ import {
   JoinColumn,
   PrimaryGeneratedColumn,
   ManyToOne,
+  JoinTable,
 } from 'typeorm';
 
 import Order from '@modules/orders/infra/typeorm/entities/Order';
@@ -14,15 +15,15 @@ import Product from '@modules/products/infra/typeorm/entities/Product';
 @Entity('order_products')
 class OrdersProducts {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
-  @ManyToOne(type => Order, order => order.id)
+  @ManyToOne(type => Order, order => order.order_products)
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
-  order: Order;
+  order!: Order;
 
-  @ManyToOne(type => Product, product => product.id)
+  @ManyToOne(type => Product, product => product.order_products)
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
-  product: Product;
+  product!: Product;
 
   @Column()
   product_id: string;
