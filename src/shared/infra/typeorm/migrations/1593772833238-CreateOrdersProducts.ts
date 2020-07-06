@@ -10,7 +10,7 @@ export default class CreateOrdersProducts1593772833238
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: 'order_products',
+        name: 'orders_products',
         columns: [
           {
             name: 'id',
@@ -51,7 +51,7 @@ export default class CreateOrdersProducts1593772833238
       }),
     );
 
-    await queryRunner.createForeignKeys('order_products', [
+    await queryRunner.createForeignKeys('orders_products', [
       new TableForeignKey({
         columnNames: ['order_id'],
         referencedColumnNames: ['id'],
@@ -68,9 +68,15 @@ export default class CreateOrdersProducts1593772833238
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('order_products');
+    await queryRunner.dropForeignKey(
+      'orders_products',
+      'fk_order_id_order_products_id_orders',
+    );
+    await queryRunner.dropForeignKey(
+      'orders_products',
+      'fk_product_id_order_products_id_products',
+    );
 
-    await queryRunner.dropForeignKey('order_products', 'order_id');
-    await queryRunner.dropForeignKey('order_products', 'product_id');
+    await queryRunner.dropTable('orders_products');
   }
 }

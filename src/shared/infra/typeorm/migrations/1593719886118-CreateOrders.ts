@@ -42,12 +42,16 @@ export default class CreateOrders1593719886118 implements MigrationInterface {
         columnNames: ['customer_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'customers',
+        name: 'fk_customer_id_orders_id_customer',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.dropForeignKey(
+      'orders',
+      'fk_customer_id_orders_id_customer',
+    );
     await queryRunner.dropTable('orders');
-    await queryRunner.dropForeignKey('orders', 'customer_id');
   }
 }

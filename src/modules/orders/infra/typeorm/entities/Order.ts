@@ -26,7 +26,7 @@ class Order {
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
   customer: Customer;
 
-  @OneToMany(type => OrdersProducts, orderProduct => orderProduct.order, {
+  @OneToMany(type => OrdersProducts, ordersProduct => ordersProduct.order, {
     eager: true,
     cascade: ['insert', 'update'],
   })

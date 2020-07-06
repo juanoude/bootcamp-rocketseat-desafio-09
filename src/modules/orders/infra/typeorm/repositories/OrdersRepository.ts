@@ -3,7 +3,6 @@ import { getRepository, Repository } from 'typeorm';
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 import ICreateOrderDTO from '@modules/orders/dtos/ICreateOrderDTO';
 import Order from '../entities/Order';
-import ordersRouter from '../../http/routes/orders.routes';
 
 class OrdersRepository implements IOrdersRepository {
   private ormRepository: Repository<Order>;
